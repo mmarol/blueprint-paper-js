@@ -1,5 +1,5 @@
-paper.install(window);
-window.onload = function() {
+<script src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.12.13/paper-full.min.js"></script>
+<script type="text/paperscript" canvas="myCanvas">
   var oldWidth, oldHeight, newWidth, newHeight, randX, randY;
   var randEndPoints = [];
   var startPoints;
@@ -78,7 +78,4 @@ window.onload = function() {
     vector = endPoint - line.lastSegment.point;
     line.lastSegment.point += vector / 50;
   }
-
-  view.draw();
-
-}
+</script>
