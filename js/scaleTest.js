@@ -90,11 +90,10 @@ function onResize(event) {
   getStartPoints(newWidth, newHeight);
   sizeChangeRatioX = newWidth/oldWidth;
   sizeChangeRatioY = newHeight/oldHeight;
-  lineGroup.children[0].lastSegment.point.x = lineGroup.children[0].lastSegment.point.x * sizeChangeRatioX;
-  lineGroup.children[0].lastSegment.point.y = lineGroup.children[0].lastSegment.point.y * sizeChangeRatioY;
+  line.lastSegment.point.x = line.lastSegment.point.x * sizeChangeRatioX;
+  line.lastSegment.point.y = line.lastSegment.point.y * sizeChangeRatioY;
   oldWidth = newWidth;
   oldHeight = newHeight;
-  circlePath.position = view.bounds.bottomRight;
 }
 
 function mapPoint(point) {

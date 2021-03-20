@@ -4,7 +4,8 @@ var startPoints;
 var startPoint, lineA, lineB, lineC;
 var dotGroup, lineGroup;
 var mousePos = view.center / 2;
-var sizeChangeRatioX, sizeChangeRatioY, newVector, line, vector;
+var sizeChangeRatioX, sizeChangeRatioY, newVector, line, vector, currentLine;
+var endPoints = [];
 
 var center = view.bounds.bottomRight;
 oldWidth = view.size.width;
@@ -48,31 +49,31 @@ function drawLines () {
   lineGroup = new Group();
   for (var i = 0; i < 3; i++) {
     endPoint = new Point(randEndPoints[i]);
-    lineGroup.addChild(new Path.Line(startPoint, endPoint));
+    currentLine = new Path.Line(startPoint, startPoint);
+    lineGroup.addChild(currentLine);
+    endPoints.push(endPoint);
   }
-  endPoint = new Point(randEndPoints[3]);
-  line = new Path.Line(startPoint, startPoint);
-  line.strokeColor = 'red';
-  line.fullySelected = true;
 }
 
 function onResize(event) {
   newWidth = view.size.width;
   newHeight = view.size.height;
-  getStartPoints(newWidth, newHeight);
   sizeChangeRatioX = newWidth/oldWidth;
   sizeChangeRatioY = newHeight/oldHeight;
-  lineGroup.children[0].lastSegment.point.x = lineGroup.children[0].lastSegment.point.x * sizeChangeRatioX;
-  lineGroup.children[0].lastSegment.point.y = lineGroup.children[0].lastSegment.point.y * sizeChangeRatioY;
-  line.lastSegment.point.x = line.lastSegment.point.x * sizeChangeRatioX;
-  line.lastSegment.point.y = line.lastSegment.point.y * sizeChangeRatioY;
-  endPoint.x = endPoint.x * sizeChangeRatioX;
-  endPoint.y = endPoint.y * sizeChangeRatioY;
+  for (var i = 0; i < lineGroup.children.length; i++) {
+    lineGroup.children[i].lastSegment.point.x = lineGroup.children[i].lastSegment.point.x * sizeChangeRatioX;
+    lineGroup.children[i].lastSegment.point.y = lineGroup.children[i].lastSegment.point.y * sizeChangeRatioY;
+    endPoints[i].x = endPoints[i].x * sizeChangeRatioX;
+    endPoints[i].y = endPoints[i].y * sizeChangeRatioY;
+  }
   oldWidth = newWidth;
   oldHeight = newHeight;
 }
 
 function onFrame(event) {
-  vector = endPoint - line.lastSegment.point;
-  line.lastSegment.point += vector / 50;
+  for (var i = 0; i < lineGroup.children.length; i++) {
+    vector = endPoints[i] - lineGroup.children[i].lastSegment.point;
+    lineGroup.children[i].lastSegment.point += vector / 50;
+    lineGroup.children[i].lastSegment.point += vector / 50;
+  }
 }
