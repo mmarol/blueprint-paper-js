@@ -5,8 +5,8 @@ var lineGroup;
 var sizeChangeRatioX, sizeChangeRatioY, vector, currentLine;
 var linesPerVertex = 5;
 var endPoints = [];
+var randSpeed = [];
 
-var center = view.bounds.bottomRight;
 currentWidth = view.size.width;
 currentHeight = view.size.height;
 
@@ -19,10 +19,6 @@ project.currentStyle = {
 // getStartPoints();
 getRandPoints();
 initiateLines();
-
-// function getStartPoints() {
-//   startPoints = [view.bounds.topLeft, view.bounds.topCenter, view.bounds.topRight, view.bounds.leftCenter, view.bounds.center, view.bounds.rightCenter, view.bounds.bottomLeft, view.bounds.bottomCenter, view.bounds.bottomRight];
-// }
 
 // Create and array of random coordinates
 function getRandPoints() {
@@ -38,14 +34,6 @@ function getRandomArbitrary(min, max) {
     return Math.random() * (max - min) + min;
 }
 
-// Draw circles at each of the 9 points on the 2x2 grid
-// function drawDots () {
-//   dotGroup = new Group();
-//   for (var i = 0; i < startPoints.length; i++) {
-//     dotGroup.addChild(new Shape.Circle(startPoints[i], 20))
-//   }
-// }
-
 // initiate the lines with 0 length
 function initiateLines () {
   lineGroup = new Group();
@@ -55,6 +43,7 @@ function initiateLines () {
       endPoints.push(endPoint);
       currentLine = new Path.Line(startPoints[i], startPoints[i]);
       lineGroup.addChild(currentLine);
+      randSpeed.push(getRandomArbitrary(50,150));
     }
   }
 }
@@ -79,7 +68,11 @@ function onResize(event) {
 function onFrame(event) {
   for (var i = 0; i < lineGroup.children.length; i++) {
     vector = endPoints[i] - lineGroup.children[i].lastSegment.point;
-    lineGroup.children[i].lastSegment.point += vector / 50;
-    lineGroup.children[i].lastSegment.point += vector / 50;
+    lineGroup.children[i].lastSegment.point += vector / randSpeed[i];
+    lineGroup.children[i].lastSegment.point += vector / randSpeed[i];
+    if (vector.length < 1) {
+      lineGroup.children[i].lastSegment.point = endPoints[i];
+      lineGroup.children[i].lastSegment.point = endPoints[i];
+    }
   }
 }
