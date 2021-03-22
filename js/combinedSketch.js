@@ -12,7 +12,7 @@ currentHeight = view.size.height;
 
 project.currentStyle = {
     fillColor: 'yellow',
-    strokeColor: 'blue',
+    strokeColor: '#111BBF',
     strokeWidth: 2
 }
 
