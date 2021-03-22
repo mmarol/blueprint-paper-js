@@ -50,6 +50,7 @@ function initiateLines () {
       randSpeed.push(getRandomArbitrary(50,150));
     }
   }
+  console.log(endPoints[5]);
 }
 
 function onResize(event) {
@@ -69,12 +70,11 @@ function onResize(event) {
   currentHeight = newHeight;
 }
 
-function onMouseDown(event) {
+function onMouseMove(event) {
   mousePos = event.point;
   for (var i = 0; i < lineGroup.children.length; i++) {
-    newEndPoints[i] = (mousePos - endPoints[i]) / 2;
+    newEndPoints[i] = (mousePos/4) + (endPoints[i] * 3 / 4);
   }
-  // calcPos = (mousePos + dotPos) / 2;
 }
 
 function onFrame(event) {
