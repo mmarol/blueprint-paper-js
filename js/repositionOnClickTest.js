@@ -16,7 +16,7 @@ currentHeight = view.size.height;
 project.currentStyle = {
     fillColor: 'yellow',
     strokeColor: '#111BBF',
-    strokeWidth: 2
+    strokeWidth: 1
 }
 
 // getStartPoints();
