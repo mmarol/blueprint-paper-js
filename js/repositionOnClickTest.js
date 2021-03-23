@@ -70,7 +70,7 @@ function onResize(event) {
   currentHeight = newHeight;
 }
 
-function onMouseMove(event) {
+function onMouseDown(event) {
   mousePos = event.point;
   for (var i = 0; i < lineGroup.children.length; i++) {
     newEndPoints[i] = (mousePos/4) + (endPoints[i] * 3 / 4);
