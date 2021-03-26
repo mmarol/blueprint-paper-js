@@ -3,12 +3,13 @@ var currentWidth, currentHeight, newWidth, newHeight, randX, randY;
 var randEndPoints = [];
 var lineGroup;
 var sizeChangeRatioX, sizeChangeRatioY, vector, currentLine, mousePos;
-var linesPerVertex = 5;
+var linesPerVertex = 6;
 var endPoints = [];
 var newEndPoints = [];
 var endPoint, newEndPoint;
 var vectors = [];
 var randSpeed = [];
+var mousePosY;
 
 currentWidth = view.size.width;
 currentHeight = view.size.height;
@@ -26,8 +27,8 @@ initiateLines();
 // Create and array of random coordinates
 function getRandPoints() {
   for (i = 0; i < linesPerVertex * 9; i++) {
-    randX = getRandomArbitrary((currentWidth/8), (currentWidth*7/8));
-    randY = getRandomArbitrary((currentHeight/8), (currentHeight*7/8));
+    randX = getRandomArbitrary((currentWidth/10), (currentWidth*9/10));
+    randY = getRandomArbitrary((currentHeight/10), (currentHeight*9/10));
     randEndPoints[i] = [randX, randY];
   }
 }
@@ -47,9 +48,10 @@ function initiateLines () {
       newEndPoints.push(endPoint);
       currentLine = new Path.Line(startPoints[i], startPoints[i]);
       lineGroup.addChild(currentLine);
-      randSpeed.push(getRandomArbitrary(50,150));
+      randSpeed.push(getRandomArbitrary(100,300));
     }
   }
+  console.log(endPoints[0]);
 }
 
 function onResize(event) {
@@ -73,10 +75,15 @@ function onFrame(event) {
   for (var i = 0; i < lineGroup.children.length; i++) {
     vectors[i] = newEndPoints[i] - lineGroup.children[i].lastSegment.point;
     lineGroup.children[i].lastSegment.point += vectors[i] / randSpeed[i];
-    lineGroup.children[i].lastSegment.point += vectors[i] / randSpeed[i];
     if (vectors[i].length < 1) {
       lineGroup.children[i].lastSegment.point = newEndPoints[i];
-      lineGroup.children[i].lastSegment.point = newEndPoints[i];
     }
+  }
+}
+
+function onMouseMove(event) {
+  mousePos = event.point;
+  for (var i = 0; i < lineGroup.children.length; i++) {
+    newEndPoints[i] = (mousePos/20) + (endPoints[i] * 19 / 20);
   }
 }
