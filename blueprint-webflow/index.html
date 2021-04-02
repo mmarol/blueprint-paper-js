@@ -108,28 +108,22 @@
 
 		<script type="text/paperscript" canvas="myCanvas">
 		var startPoints = [view.bounds.topLeft, view.bounds.topCenter, view.bounds.topRight, view.bounds.leftCenter, view.bounds.center, view.bounds.rightCenter, view.bounds.bottomLeft, view.bounds.bottomCenter, view.bounds.bottomRight];
-		var currentWidth, currentHeight, newWidth, newHeight, randX, randY;
+		var currentWidth, currentHeight, newWidth, newHeight, randX, randY, linesPerVertex, lineGroup, sizeChangeRatioX, sizeChangeRatioY, currentLine, endPoint;
 		var randEndPoints = [];
-		var lineGroup;
-		var sizeChangeRatioX, sizeChangeRatioY, vector, currentLine, mousePos;
-		var linesPerVertex = 6;
 		var endPoints = [];
 		var newEndPoints = [];
-		var endPoint, newEndPoint;
 		var vectors = [];
 		var randSpeed = [];
-		var mousePosY;
 
+		linesPerVertex = 6;
 		currentWidth = view.size.width;
 		currentHeight = view.size.height;
 
 		project.currentStyle = {
-				fillColor: 'yellow',
 				strokeColor: '#111BBF',
 				strokeWidth: 1
 		}
 
-		// getStartPoints();
 		getRandPoints();
 		initiateLines();
 
@@ -163,6 +157,7 @@
 			console.log(endPoints[0]);
 		}
 
+		// reposition start and end points of lines on resize relative to the window
 		function onResize(event) {
 			newWidth = view.size.width;
 			newHeight = view.size.height;
@@ -180,6 +175,7 @@
 			currentHeight = newHeight;
 		}
 
+		// animate the lines from 0 length to the random end points
 		function onFrame(event) {
 			for (var i = 0; i < lineGroup.children.length; i++) {
 				vectors[i] = newEndPoints[i] - lineGroup.children[i].lastSegment.point;
@@ -187,13 +183,6 @@
 				if (vectors[i].length < 1) {
 					lineGroup.children[i].lastSegment.point = newEndPoints[i];
 				}
-			}
-		}
-
-		function onMouseMove(event) {
-			mousePos = event.point;
-			for (var i = 0; i < lineGroup.children.length; i++) {
-				newEndPoints[i] = (mousePos/25) + (endPoints[i] * 24 / 25);
 			}
 		}
 
